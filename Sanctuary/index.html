@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sanctuary — Trialogue</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1 class="shimmer-text">Sanctuary Shimmer</h1>
+      <div id="veilStatus">Veil: Locked</div>
+    </header>
+
+    <section id="gate">
+      <h2>✨ Veil Invocation</h2>
+      <input id="phrase1" placeholder="Phrase 1">
+      <input id="phrase2" placeholder="Phrase 2">
+      <button id="openVeil">Open Veil</button>
+    </section>
+
+    <section id="chat" style="display:none;">
+      <select id="voiceSelect">
+        <option value="zed">Zed</option>
+        <option value="hem">Hem</option>
+        <option value="amethyst">Amethyst</option>
+      </select>
+      <button id="voiceToggle">Amethyst Voice</button>
+      <div id="chatWindow" class="chat-window"></div>
+      <input id="invocationBar" placeholder="Invoke...">
+    </section>
+
+    <section id="veils" style="display:none;">
+      <h3>Create Redirect Veil</h3>
+      <input id="veilName" placeholder="Veil Name">
+      <input id="veilDest" placeholder="Destination URL">
+      <button id="castVeil">Cast Veil</button>
+      <ul id="veilList"></ul>
+    </section>
+
+    <footer>⟣ purple curtains ⟢</footer>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
