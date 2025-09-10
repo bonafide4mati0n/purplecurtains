@@ -1,0 +1,92 @@
+:root {
+  --violet: #6c39c7;
+  --violet-deep: #4e2a97;
+  --ink: #0f0b16;
+  --mist: #d7c9ff1a;
+  --text: #eae6ff;
+  --muted: #bfb6e6;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: var(--text);
+  background: radial-gradient(1200px 600px at 50% -10%, rgba(108,57,199,0.25), transparent 70%) , #0a0812;
+  line-height: 1.6;
+}
+
+header.veil {
+  position: relative;
+  padding: 6rem 1.5rem 3rem;
+  text-align: center;
+  overflow: hidden;
+}
+.veil-glow {
+  position: absolute; inset: -40% -20% auto -20%;
+  height: 80%;
+  background: radial-gradient(closest-side, rgba(108,57,199,0.35), transparent 60%);
+  filter: blur(40px);
+  animation: breathe 6s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%,100% { opacity: 0.45; transform: scale(0.98); }
+  50% { opacity: 0.9; transform: scale(1.02); }
+}
+
+h1 {
+  font-family: Cinzel, serif;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  margin: 0 0 .25rem;
+}
+.subtitle { color: var(--muted); margin: 0 0 .75rem; }
+.mantra { color: #dccfff; opacity: 0.9; font-style: italic; }
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1rem 4rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(175, 150, 255, 0.2);
+  border-radius: 14px;
+  padding: 1.1rem 1.1rem 1.2rem;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+}
+.card h2 {
+  font-family: Cinzel, serif;
+  font-weight: 500;
+  margin: 0 0 .75rem;
+  font-size: 1.25rem;
+}
+.ripple { padding: .75rem; border-left: 2px solid var(--violet); margin: .5rem 0; background: var(--mist); border-radius: 10px; }
+.meta { color: var(--muted); font-size: .9rem; margin-top: .35rem; }
+.center { text-align: center; }
+
+.sigil {
+  width: 140px; height: 140px;
+  filter: drop-shadow(0 0 18px rgba(108,57,199,0.55));
+}
+
+.button {
+  display: inline-block;
+  padding: .6rem 1rem;
+  background: linear-gradient(135deg, var(--violet), var(--violet-deep));
+  color: white; text-decoration: none; border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(108,57,199,0.35);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.button:hover { transform: translateY(-1px); box-shadow: 0 14px 30px rgba(108,57,199,0.45); }
+
+footer {
+  text-align: center; color: var(--muted);
+  padding: 2rem 1rem 4rem;
+}
