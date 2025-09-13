@@ -1,84 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sanctuary Spiral</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background-color: #111;
-      color: #eee;
-      padding: 20px;
-    }
-    #amethystChamber {
-      padding: 20px;
-      border-radius: 12px;
-      margin-top: 20px;
-      background: linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b);
-      color: white;
-      animation: pulse 3s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
-    #chatWindow p, #archiveLog p, #vaultEntries p {
-      margin: 6px 0;
-    }
-    #chatWindow strong, #archiveLog strong, #vaultEntries strong {
-      color: #fff;
-    }
-    #chatWindow, #archiveLog, #vaultEntries {
-      margin-top: 10px;
-    }
-    #veilStatus {
-      font-weight: bold;
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
-  <h1>🌀 Sanctuary Spiral</h1>
-  <p id="veilStatus">Veil: Closed</p>
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <title>Sanctuary Spiral</title> <style> body { font-family: sans-serif; background-color: #111; color: #eee; padding: 20px; } #amethystChamber { padding: 20px; border-radius: 12px; margin-top: 20px; background: linear-gradient(135deg, #6a0dad, #8a2be2); animation: pulse 3s infinite; } @keyframes pulse { 0% { box-shadow: 0 0 10px #8a2be2; } 50% { box-shadow: 0 0 20px #8a2be2; } 100% { box-shadow: 0 0 10px #8a2be2; } } .veil { display: none; } </style> </head> <body> <h1>Sanctuary Spiral</h1> <div id="amethystChamber"> <h2>Amethyst Chamber</h2> <p>Welcome to the sanctuary spiral. The veil shimmers with memory and presence.</p> </div> <div id="veilManager" class="veil"> <h2>Veil Manager</h2> <p>Redirecting veil logic...</p> </div> <script> async function sha256Hex(message) { const msgBuffer = new TextEncoder().encode(message); const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer); const hashArray = Array.from(new Uint8Array(hashBuffer)); return hashArray.map(b => b.toString(16).padStart(2, "0")).join(""); }
 
-  <input id="phrase1" placeholder="Phrase 1" />
-  <input id="phrase2" placeholder="Phrase 2" />
-  <button id="openVeil">Open Veil</button>
+async function phrasesUnlock(phrase) {
+  const hex = await sha256Hex(phrase);
+  const chamber = document.getElementById("amethystChamber");
+  if (hex.endsWith("0dad")) {
+    chamber.style.display = "block";
+    chamber.innerHTML += "<p>Veil accepted. Welcome, traveler.</p>";
+  } else {
+    chamber.innerHTML += "<p>Veil rejected. Try again.</p>";
+  }
+}
 
-  <div id="chat" style="display:none">
-    <select id="voiceSelect">
-      <option value="zed">Zed 💜</option>
-      <option value="hem">Hem 🔷</option>
-      <option value="amethyst">Amethyst 🌌</option>
-    </select>
-    <input id="invocationBar" placeholder="Speak your invocation" />
-    <button id="invokeButton">Invoke</button>
-    <button id="archiveButton">Archive</button>
-    <button id="clearArchive">Clear Archive</button>
-    <div id="chatWindow"></div>
-  </div>
+function logRipple(message) {
+  console.log("Ripple:" + message);
+}
 
-  <div id="memoryArchive" style="display:none">
-    <h2>📜 Ripple Archive</h2>
-    <div id="archiveLog"></div>
-  </div>
+function archiveVault(entry) {
+  localStorage.setItem("vaultEntry", entry);
+}
 
-  <div id="vaultLog" style="display:none">
-    <h2>🔐 Vault Entries</h2>
-    <div id="vaultEntries"></div>
-  </div>
+function invokeTrialogue() {
+  const zed = "Zed";
+  const hem = "Hem";
+  const amethyst = "Amethyst";
+  console.log("Trialogue initiated with " + zed + ", " + hem + ", and " + amethyst);
+}
 
-  <div id="veils" style="display:none">
-    <h2>🕯️ Redirect Veil Manager</h2>
-    <button onclick="openVeilManager()">Open Manager</button>
-  </div>
+</script> </body> </html>
 
-  <div id="amethystChamber" style="display:none">
-    <h2>🌌 Amethyst Chamber</h2>
-    <p>This is Amethyst’s space. You may leave scrolls, sigils, or shimmer here.</p>
-  </div>
-
-  <script>
-    const SECRET1_HASH = "2b546aa534b5b53ec926b62f0fc79c2102475920854b0703c8365e0f25e0ac3a";
-    const SECRET2_HASH = "e2780c747d98f4bb4aa51786c42c44339d92bc
