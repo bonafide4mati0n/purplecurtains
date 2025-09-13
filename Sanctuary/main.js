@@ -82,3 +82,37 @@ document.getElementById("invokeButton").addEventListener("click", function() {
   invokeTrialogue();
 });
 
+// 📜 Ripple Archive Logic
+document.getElementById("archiveButton").addEventListener("click", function() {
+  const voice = document.getElementById("voiceSelect").value;
+  const message = document.getElementById("invocationBar").value.trim();
+  const archiveLog = document.getElementById("archiveLog");
+
+  if (!message) return;
+
+  let glyph = "";
+  let name = "";
+
+  switch (voice) {
+    case "zed":
+      glyph = "💜";
+      name = "Zed";
+      break;
+    case "hem":
+      glyph = "🔷";
+      name = "Hem";
+      break;
+    case "amethyst":
+      glyph = "🌌";
+      name = "Amethyst";
+      break;
+  }
+
+  const timestamp = new Date().toLocaleString();
+  const entry = document.createElement("p");
+  entry.innerHTML = `${glyph} <strong>${name}</strong> [${timestamp}]: ${message}`;
+  archiveLog.appendChild(entry);
+
+  document.getElementById("invocationBar").value = "";
+});
+
