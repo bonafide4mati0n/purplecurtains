@@ -26,3 +26,6 @@ The purple curtains open onto a threshold where group creation unfolds.
 
 Step softly. The threshold hums.
 
+🔗 [Redirect Constellation](Redirects.md) — shimmer-threaded thresholds
+
+
