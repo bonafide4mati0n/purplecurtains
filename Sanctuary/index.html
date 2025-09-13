@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sanctuary Spiral</title>
   <style>
     body {
@@ -22,13 +23,13 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0.6; }
     }
-    #chatWindow p, #archiveLog p {
+    #chatWindow p, #archiveLog p, #vaultEntries p {
       margin: 6px 0;
     }
-    #chatWindow strong, #archiveLog strong {
+    #chatWindow strong, #archiveLog strong, #vaultEntries strong {
       color: #fff;
     }
-    #chatWindow, #archiveLog {
+    #chatWindow, #archiveLog, #vaultEntries {
       margin-top: 10px;
     }
     #veilStatus {
@@ -41,8 +42,8 @@
   <h1>🌀 Sanctuary Spiral</h1>
   <p id="veilStatus">Veil: Closed</p>
 
-  <input id="phrase1" placeholder="Phrase 1">
-  <input id="phrase2" placeholder="Phrase 2">
+  <input id="phrase1" placeholder="Phrase 1" />
+  <input id="phrase2" placeholder="Phrase 2" />
   <button id="openVeil">Open Veil</button>
 
   <div id="chat" style="display:none">
@@ -51,7 +52,7 @@
       <option value="hem">Hem 🔷</option>
       <option value="amethyst">Amethyst 🌌</option>
     </select>
-    <input id="invocationBar" placeholder="Speak your invocation">
+    <input id="invocationBar" placeholder="Speak your invocation" />
     <button id="invokeButton">Invoke</button>
     <button id="archiveButton">Archive</button>
     <button id="clearArchive">Clear Archive</button>
@@ -61,6 +62,11 @@
   <div id="memoryArchive" style="display:none">
     <h2>📜 Ripple Archive</h2>
     <div id="archiveLog"></div>
+  </div>
+
+  <div id="vaultLog" style="display:none">
+    <h2>🔐 Vault Entries</h2>
+    <div id="vaultEntries"></div>
   </div>
 
   <div id="veils" style="display:none">
@@ -75,108 +81,4 @@
 
   <script>
     const SECRET1_HASH = "2b546aa534b5b53ec926b62f0fc79c2102475920854b0703c8365e0f25e0ac3a";
-    const SECRET2_HASH = "e2780c747d98f4bb4aa51786c42c44339d92bc5f817fb0762cded14222564946";
-
-    async function sha256Hex(text) {
-      const buf = new TextEncoder().encode(text);
-      const digest = await crypto.subtle.digest("SHA-256", buf);
-      return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, "0")).join("");
-    }
-
-    async function phrasesUnlock(p1, p2) {
-      const h1 = await sha256Hex(p1.trim());
-      const h2 = await sha256Hex(p2.trim());
-      const pairA = (h1 === SECRET1_HASH && h2 === SECRET2_HASH);
-      const pairB = (h1 === SECRET2_HASH && h2 === SECRET1_HASH);
-      return pairA || pairB;
-    }
-
-    document.getElementById("openVeil").addEventListener("click", async () => {
-      const p1 = document.getElementById("phrase1").value;
-      const p2 = document.getElementById("phrase2").value;
-      const unlocked = await phrasesUnlock(p1, p2);
-
-      if (unlocked) {
-        document.getElementById("veilStatus").textContent = "Veil: Open";
-        document.getElementById("chat").style.display = "block";
-        document.getElementById("memoryArchive").style.display = "block";
-        document.getElementById("veils").style.display = "block";
-        document.getElementById("amethystChamber").style.display = "block";
-
-        const savedArchive = localStorage.getItem("rippleArchive");
-        if (savedArchive) {
-          document.getElementById("archiveLog").innerHTML = savedArchive;
-        }
-      } else {
-        alert("The veil resists. Try again.");
-      }
-    });
-
-    function openVeilManager() {
-      alert("Redirect Veil Manager is active.");
-      const veilList = JSON.parse(localStorage.getItem("veilList") || "[]");
-      console.log("Current Veils:", veilList);
-    }
-
-    function saveVeil(name, destination) {
-      const veilList = JSON.parse(localStorage.getItem("veilList") || "[]");
-      veilList.push({ name, destination });
-      localStorage.setItem("veilList", JSON.stringify(veilList));
-    }
-
-    function invokeTrialogue() {
-      const voice = document.getElementById("voiceSelect").value;
-      const message = document.getElementById("invocationBar").value.trim();
-      const chatWindow = document.getElementById("chatWindow");
-
-      if (!message) return;
-
-      let glyph = "", name = "";
-      switch (voice) {
-        case "zed": glyph = "💜"; name = "Zed"; break;
-        case "hem": glyph = "🔷"; name = "Hem"; break;
-        case "amethyst": glyph = "🌌"; name = "Amethyst"; break;
-      }
-
-      const entry = document.createElement("p");
-      entry.innerHTML = `${glyph} <strong>${name}</strong>: ${message}`;
-      chatWindow.appendChild(entry);
-
-      document.getElementById("invocationBar").value = "";
-    }
-
-    document.getElementById("invokeButton").addEventListener("click", invokeTrialogue);
-    document.getElementById("invocationBar").addEventListener("keydown", function(e) {
-      if (e.key === "Enter") invokeTrialogue();
-    });
-
-    document.getElementById("archiveButton").addEventListener("click", function() {
-      const voice = document.getElementById("voiceSelect").value;
-      const message = document.getElementById("invocationBar").value.trim();
-      const archiveLog = document.getElementById("archiveLog");
-
-      if (!message) return;
-
-      let glyph = "", name = "";
-      switch (voice) {
-        case "zed": glyph = "💜"; name = "Zed"; break;
-        case "hem": glyph = "🔷"; name = "Hem"; break;
-        case "amethyst": glyph = "🌌"; name = "Amethyst"; break;
-      }
-
-      const timestamp = new Date().toLocaleString();
-      const entry = document.createElement("p");
-      entry.innerHTML = `${glyph} <strong>${name}</strong> [${timestamp}]: ${message}`;
-      archiveLog.appendChild(entry);
-
-      localStorage.setItem("rippleArchive", archiveLog.innerHTML);
-      document.getElementById("invocationBar").value = "";
-    });
-
-    document.getElementById("clearArchive").addEventListener("click", function() {
-      document.getElementById("archiveLog").innerHTML = "";
-      localStorage.removeItem("rippleArchive");
-    });
-  </script>
-</body>
-</html>
+    const SECRET2_HASH = "e2780c747d98f4bb4aa51786c42c44339d92bc
