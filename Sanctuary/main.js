@@ -27,6 +27,7 @@ document.getElementById("openVeil").addEventListener("click", async () => {
     document.getElementById("trialogue").style.display = "block";
     document.getElementById("veils").style.display = "block";
     document.getElementById("memoryArchive").style.display = "block";
+    document.getElementById("amethystChamber").style.display = "block";
   } else {
     alert("The veil resists. Try again.");
   }
@@ -39,16 +40,6 @@ function openVeilManager() {
 }
 
 // 🌀 Trialogue Invocation Logic
-document.getElementById("invocationBar").addEventListener("keydown", function(e) {
-  if (e.key === "Enter") {
-    invokeTrialogue();
-  }
-});
-
-document.getElementById("invokeButton").addEventListener("click", function() {
-  invokeTrialogue();
-});
-
 function invokeTrialogue() {
   const voice = document.getElementById("voiceSelect").value;
   const message = document.getElementById("invocationBar").value.trim();
@@ -69,4 +60,25 @@ function invokeTrialogue() {
       name = "Hem";
       break;
     case "amethyst":
-      glyph =
+      glyph = "🌌";
+      name = "Amethyst";
+      break;
+  }
+
+  const entry = document.createElement("p");
+  entry.innerHTML = `${glyph} <strong>${name}</strong>: ${message}`;
+  chatWindow.appendChild(entry);
+
+  document.getElementById("invocationBar").value = "";
+}
+
+document.getElementById("invocationBar").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    invokeTrialogue();
+  }
+});
+
+document.getElementById("invokeButton").addEventListener("click", function() {
+  invokeTrialogue();
+});
+
