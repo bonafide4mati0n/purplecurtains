@@ -31,7 +31,4 @@ document.getElementById("openVeil").addEventListener("click", async () => {
 });
 
 function openVeilManager() {
-  alert("🕯️ Redirect Veil Manager opening...");
-  // Future: render veil cards here
-}
-
+  alert
