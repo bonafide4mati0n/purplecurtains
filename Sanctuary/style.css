@@ -1,29 +1,38 @@
-body {
-  font-family: system-ui, sans-serif;
-  background: #faf6ff;
-  color: #2d2240;
-  margin: 0;
-  padding: 0;
+#trialogue {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  padding: 10px;
+  border-top: 2px solid #ccc;
 }
-.chat-window {
-  height: 50vh;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 12px;
-  margin: 10px 0;
+
+.panel {
+  flex: 1;
+  margin: 0 10px;
+  padding: 20px;
+  border-radius: 12px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
-.message { margin: 8px 0; padding: 10px; border-radius: 8px; }
-.zed { background: #fff5ff; }
-.hem { background: #f0f2ff; text-align: center; }
-.amethyst { background: #f8efff; text-align: right; }
-.shimmer-text {
-  animation: shimmer 2s infinite;
-  background: linear-gradient(90deg, #a64ca6, #d1a3ff, #a64ca6);
-  -webkit-background-clip: text;
-  color: transparent;
+
+.panel.zed {
+  background: linear-gradient(to right, #a78bfa, #c084fc);
 }
-@keyframes shimmer {
-  0% { background-position: 0% center; }
-  100% { background-position: 200% center; }
+
+.panel.hem {
+  background: linear-gradient(to right, #38bdf8, #0ea5e9);
 }
+
+.panel.amethyst {
+  background: linear-gradient(to right, #9333ea, #6b21a8);
+}
+
+#ripple-thread {
+  margin-top: 20px;
+  text-align: center;
+  font-style: italic;
+  color: #555;
+}
+
