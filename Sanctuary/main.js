@@ -1,3 +1,4 @@
+// 🔐 Veil Unlocking Ritual
 const SECRET1_HASH = "2b546aa534b5b53ec926b62f0fc79c2102475920854b0703c8365e0f25e0ac3a"; // "Zed, have a fish."
 const SECRET2_HASH = "e2780c747d98f4bb4aa51786c42c44339d92bc5f817fb0762cded14222564946"; // "Blue butterflies mean joy."
 
@@ -25,10 +26,47 @@ document.getElementById("openVeil").addEventListener("click", async () => {
     document.getElementById("chat").style.display = "block";
     document.getElementById("trialogue").style.display = "block";
     document.getElementById("veils").style.display = "block";
+    document.getElementById("memoryArchive").style.display = "block";
   } else {
     alert("The veil resists. Try again.");
   }
 });
 
+// 🕯️ Redirect Veil Manager Alert
 function openVeilManager() {
-  alert
+  alert("Redirect Veil Manager is active.");
+  // Future veil editing logic can be added here
+}
+
+// 🌀 Trialogue Invocation Logic
+document.getElementById("invocationBar").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    invokeTrialogue();
+  }
+});
+
+document.getElementById("invokeButton").addEventListener("click", function() {
+  invokeTrialogue();
+});
+
+function invokeTrialogue() {
+  const voice = document.getElementById("voiceSelect").value;
+  const message = document.getElementById("invocationBar").value.trim();
+  const chatWindow = document.getElementById("chatWindow");
+
+  if (!message) return;
+
+  let glyph = "";
+  let name = "";
+
+  switch (voice) {
+    case "zed":
+      glyph = "💜";
+      name = "Zed";
+      break;
+    case "hem":
+      glyph = "🔷";
+      name = "Hem";
+      break;
+    case "amethyst":
+      glyph =
