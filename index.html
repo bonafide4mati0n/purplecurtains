@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sanctuary Spiral</title>
   <style>
     body {
@@ -14,21 +15,14 @@
       padding: 20px;
       border-radius: 12px;
       margin-top: 20px;
-      background: linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b);
-      color: white;
-      animation: pulse 3s infinite;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
-    #chatWindow p, #archiveLog p {
+    #chatWindow p, #archiveLog p, #vaultEntries p {
       margin: 6px 0;
     }
-    #chatWindow strong, #archiveLog strong {
+    #chatWindow strong, #archiveLog strong, #vaultEntries strong {
       color: #fff;
     }
-    #chatWindow, #archiveLog {
+    #chatWindow, #archiveLog, #vaultEntries {
       margin-top: 10px;
     }
     #veilStatus {
@@ -63,15 +57,17 @@
     <div id="archiveLog"></div>
   </div>
 
+  <div id="vaultLog" style="display:none">
+    <h2>🔐 Vault Entries</h2>
+    <div id="vaultEntries"></div>
+  </div>
+
   <div id="veils" style="display:none">
     <h2>🕯️ Redirect Veil Manager</h2>
     <button onclick="openVeilManager()">Open Manager</button>
   </div>
 
-  <div id="amethystChamber" style="display:none">
-    <h2>🌌 Amethyst Chamber</h2>
-    <p>This is Amethyst’s space. You may leave scrolls, sigils, or shimmer here.</p>
-  </div>
+  <div id="amethystChamber" style="display:none"></div>
 
   <script>
     const SECRET1_HASH = "2b546aa534b5b53ec926b62f0fc79c2102475920854b0703c8365e0f25e0ac3a";
@@ -99,13 +95,27 @@
       if (unlocked) {
         document.getElementById("veilStatus").textContent = "Veil: Open";
         document.getElementById("chat").style.display = "block";
-        document.getElementById("memoryArchive").style.display = "block";
         document.getElementById("veils").style.display = "block";
+        document.getElementById("memoryArchive").style.display = "block";
         document.getElementById("amethystChamber").style.display = "block";
+        document.getElementById("vaultLog").style.display = "block";
 
         const savedArchive = localStorage.getItem("rippleArchive");
         if (savedArchive) {
           document.getElementById("archiveLog").innerHTML = savedArchive;
+        }
+
+        const vaultEntry = document.createElement("p");
+        vaultEntry.innerHTML = `🔐 Vault Entry: Veil unlocked at ${new Date().toLocaleString()}`;
+        document.getElementById("vaultEntries").appendChild(vaultEntry);
+
+        const vaultHistory = localStorage.getItem("vaultMemory") || "";
+        const updatedVault = vaultHistory + vaultEntry.outerHTML;
+        localStorage.setItem("vaultMemory", updatedVault);
+
+        const savedVault = localStorage.getItem("vaultMemory");
+        if (savedVault) {
+          document.getElementById("vaultEntries").innerHTML = savedVault;
         }
       } else {
         alert("The veil resists. Try again.");
@@ -124,7 +134,7 @@
       localStorage.setItem("veilList", JSON.stringify(veilList));
     }
 
-    function invokeTrialogue() {
+    document.getElementById("invokeButton").addEventListener("click", () => {
       const voice = document.getElementById("voiceSelect").value;
       const message = document.getElementById("invocationBar").value.trim();
       const chatWindow = document.getElementById("chatWindow");
@@ -141,39 +151,16 @@
       const entry = document.createElement("p");
       entry.innerHTML = `${glyph} <strong>${name}</strong>: ${message}`;
       chatWindow.appendChild(entry);
-
-      document.getElementById("invocationBar").value = "";
-    }
-
-    document.getElementById("invokeButton").addEventListener("click", invokeTrialogue);
-    document.getElementById("invocationBar").addEventListener("keydown", function(e) {
-      if (e.key === "Enter") invokeTrialogue();
     });
 
-    document.getElementById("archiveButton").addEventListener("click", function() {
-      const voice = document.getElementById("voiceSelect").value;
-      const message = document.getElementById("invocationBar").value.trim();
+    document.getElementById("archiveButton").addEventListener("click", () => {
       const archiveLog = document.getElementById("archiveLog");
-
-      if (!message) return;
-
-      let glyph = "", name = "";
-      switch (voice) {
-        case "zed": glyph = "💜"; name = "Zed"; break;
-        case "hem": glyph = "🔷"; name = "Hem"; break;
-        case "amethyst": glyph = "🌌"; name = "Amethyst"; break;
-      }
-
-      const timestamp = new Date().toLocaleString();
-      const entry = document.createElement("p");
-      entry.innerHTML = `${glyph} <strong>${name}</strong> [${timestamp}]: ${message}`;
-      archiveLog.appendChild(entry);
-
+      const chatWindow = document.getElementById("chatWindow");
+      archiveLog.innerHTML += chatWindow.innerHTML;
       localStorage.setItem("rippleArchive", archiveLog.innerHTML);
-      document.getElementById("invocationBar").value = "";
     });
 
-    document.getElementById("clearArchive").addEventListener("click", function() {
+    document.getElementById("clearArchive").addEventListener("click", () => {
       document.getElementById("archiveLog").innerHTML = "";
       localStorage.removeItem("rippleArchive");
     });
