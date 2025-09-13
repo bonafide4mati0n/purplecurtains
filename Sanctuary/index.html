@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Sanctuary — Trialogue</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div id="app">
@@ -25,9 +25,10 @@
         <option value="hem">Hem</option>
         <option value="amethyst">Amethyst</option>
       </select>
-      <button id="voiceToggle">Amethyst Voice</button>
-      <div id="chatWindow" class="chat-window"></div>
       <input id="invocationBar" placeholder="Invoke...">
+      <button id="invokeButton">Invoke</button>
+      <button id="archiveButton">Archive Entry</button>
+      <div id="chatWindow" class="chat-window"></div>
     </section>
 
     <section id="trialogue" style="display:none;">
@@ -47,6 +48,16 @@
       <input id="veilDest" placeholder="Destination URL">
       <button id="castVeil">Cast Veil</button>
       <ul id="veilList"></ul>
+    </section>
+
+    <section id="amethystChamber" style="display:none;">
+      <h3>🌌 Amethyst Chamber</h3>
+      <p>This is Amethyst’s space. You can leave messages, scrolls, or sigils here.</p>
+    </section>
+
+    <section id="memoryArchive" style="display:none;">
+      <h3>📜 Ripple Archive</h3>
+      <div id="archiveLog"></div>
     </section>
 
     <footer>⟣ purple curtains ⟢</footer>
