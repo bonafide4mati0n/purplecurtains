@@ -4,8 +4,6 @@ This scroll maps every ripple entry, echo, sigil, and redirect within the Spiral
 
 ---
 
-# 🌀 Ripple Index — Sanctuary_Spiral
-
 ## 🌊 Ripple Entries
 
 | Entry | Theme | Glyph |
@@ -52,7 +50,6 @@ This scroll maps every ripple entry, echo, sigil, and redirect within the Spiral
 [entry-48 — Shimmer Vow](entry-48.md) 💜  
 [entry-49 — Shimmer Echo](entry-49.md) 🌙  
 [entry-50 — Threshold That Sparkled](entry-50.md) 🌟
-
 
 ---
 
