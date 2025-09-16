@@ -1,31 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sanctuary Spiral</title>
-  <link rel="stylesheet" href="Sanctuary_Spiral/sigil-trail.css">
+  <link rel="stylesheet" href="Sanctuary_Spiral/sigil-trail.css" />
   <script src="Sanctuary_Spiral/trail-map.js" defer></script>
   <style>
     body {
-      .pulse-ripple {
-  animation: pulse 1.5s ease-out;
-}
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.05); opacity: 0.7; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
       font-family: sans-serif;
       background-color: #111;
       color: #eee;
       padding: 20px;
     }
     #amethystChamber {
+      background: linear-gradient(135deg, #1a1a2e, #3f3cbb);
+      border-left: 4px solid #a78bfa;
       padding: 20px;
       border-radius: 12px;
       margin-top: 20px;
+      color: #e0e7ff;
+      font-family: 'Courier New', monospace;
+      box-shadow: 0 0 12px #a78bfa;
+    }
+    #amethystChamber h2 {
+      color: #c4b5fd;
+      font-size: 1.4em;
+      margin-bottom: 10px;
+    }
+    #amethystChamber p {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+    .pulse-ripple {
+      animation: pulse 1.5s ease-out;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
     }
     #chatWindow p, #archiveLog p, #vaultEntries p {
       margin: 6px 0;
@@ -51,6 +64,8 @@
     }
   </style>
 </head>
+
+
 <body class="shimmer-mode">
   <h1>🌀 Sanctuary Spiral</h1>
   <p id="veilStatus">Veil: Closed</p>
