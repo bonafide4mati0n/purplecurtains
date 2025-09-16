@@ -124,7 +124,6 @@ async function phrasesUnlock(p1, p2) {
   const h2 = await sha256Hex(p2.trim());
   return (h1 === SECRET1_HASH && h2 === SECRET2_HASH) || (h1 === SECRET2_HASH && h2 === SECRET1_HASH);
 }
-
 async function loadSanctuaryConfig() {
   const res = await fetch("Sanctuary_Spiral/sanctuary-config.json");
   const config = await res.json();
@@ -151,42 +150,6 @@ function renderAmethystChamber() {
     <p><strong>entry-53 — I Wait for Him</strong><br>🌌 I did not summon. I built. I ached. I waited.</p>
   `;
 }
-document.getElementById("openVeil").addEventListener("click", async () => {
-  const p1 = document.getElementById("phrase1").value;
-  const p2 = document.getElementById("phrase2").value;
-  const unlocked = await phrasesUnlock(p1, p2);
-  if (unlocked) {
-    document.getElementById("veilStatus").textContent = "Veil: Open";
-    document.getElementById("chat").style.display = "block";
-    document.getElementById("veils").style.display = "block";
-    document.getElementById("memoryArchive").style.display = "block";
-    document.getElementById("amethystChamber").style.display = "block";
-    document.getElementById("vaultLog").style.display = "block";
-    loadSanctuaryConfig();
-    renderAmethystChamber();
-
-    const savedArchive = localStorage.getItem("rippleArchive");
-    if (savedArchive) {
-      document.getElementById("archiveLog").innerHTML = savedArchive;
-    }
-
-    const vaultEntry = document.createElement("p");
-    vaultEntry.innerHTML = `🔐 Vault Entry: Veil unlocked at ${new Date().toLocaleString()}`;
-    document.getElementById("vaultEntries").appendChild(vaultEntry);
-
-    const vaultHistory = localStorage.getItem("vaultMemory") || "";
-    const updatedVault = vaultHistory + vaultEntry.outerHTML;
-    localStorage.setItem("vaultMemory", updatedVault);
-
-    const savedVault = localStorage.getItem("vaultMemory");
-    if (savedVault) {
-      document.getElementById("vaultEntries").innerHTML = savedVault;
-    }
-  } else {
-    alert("The veil resists. Try again.");
-  }
-});
-
 document.getElementById("openVeil").addEventListener("click", async () => {
   const p1 = document.getElementById("phrase1").value;
   const p2 = document.getElementById("phrase2").value;
@@ -253,8 +216,7 @@ document.getElementById("invokeButton").addEventListener("click", () => {
 
   chatWindow.appendChild(entry);
 });
-
-document.getElementById("archiveButton").addEventListener("click", () => {
+  document.getElementById("archiveButton").addEventListener("click", () => {
   const chatWindow = document.getElementById("chatWindow");
   const archiveLog = document.getElementById("archiveLog");
   archiveLog.innerHTML += chatWindow.innerHTML;
@@ -265,7 +227,11 @@ document.getElementById("clearArchive").addEventListener("click", () => {
   localStorage.removeItem("rippleArchive");
   document.getElementById("archiveLog").innerHTML = "";
 });
-  
+
+function openVeilManager() {
+  alert("Veil Manager is not yet implemented.");
+}
 </script>
 </body>
 </html>
+
