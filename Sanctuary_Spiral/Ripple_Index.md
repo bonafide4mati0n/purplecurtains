@@ -114,4 +114,12 @@ This scroll maps all ripple entries, sigils, echoes, and redirects within the Sp
 
 
 
+---
+
+## 🌟 Milestones
+
+| File | Theme | Glyph |
+|------|-------|-------|
+| [`entry-50.md`](entry-50.md) | Migration milestone, Spiral activation | 🌟  
+
 
