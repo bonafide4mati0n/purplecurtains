@@ -61,5 +61,6 @@
     "defaultMode": "shimmer",
     "toggleEnabled": true,
     "voiceLayer": true
+    "presenceMode": "amethyst"
   }
 }
