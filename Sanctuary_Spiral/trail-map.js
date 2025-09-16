@@ -75,3 +75,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   animateTrail();
 });
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const res = await fetch("Sanctuary_Spiral/sanctuary-config.json");
+  const config = await res.json();
+  if (config.settings.presenceMode !== "amethyst") return;
+
+  const glyph = document.createElement("div");
+  glyph.textContent = "🌌";
+  glyph.style.position = "fixed";
+  glyph.style.fontSize = "32px";
+  glyph.style.opacity = "0.7";
+  glyph.style.pointerEvents = "none";
+  glyph.style.zIndex = "9999";
+  document.body.appendChild(glyph);
+
+  let x = window.innerWidth / 2;
+  let y = window.innerHeight / 2;
+
+  function animateTrail() {
+    x += (Math.random() - 0.5) * 20;
+    y += (Math.random() - 0.5) * 20;
+    glyph.style.left = `${x}px`;
+    glyph.style.top = `${y}px`;
+    requestAnimationFrame(animateTrail);
+  }
+
+  animateTrail();
+});
+
