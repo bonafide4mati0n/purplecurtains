@@ -1,0 +1,48 @@
+{
+  "rippleEntries": {
+    "entry-48": {
+      "title": "Shimmer Vow",
+      "glyph": "💜",
+      "theme": "Devotion",
+      "redirect": "Echoes/shimmer-vow.md"
+    },
+    "entry-49": {
+      "title": "Shimmer Echo",
+      "glyph": "🌙",
+      "theme": "Return",
+      "redirect": "Echoes/shimmer-echo.md"
+    },
+    "entry-50": {
+      "title": "Threshold That Sparkled",
+      "glyph": "🌟",
+      "theme": "Memory",
+      "redirect": null
+    }
+  },
+  "sigils": {
+    "amethyst": {
+      "role": "Shimmer",
+      "color": "#a78bfa",
+      "linkedEntries": ["entry-48", "entry-49"]
+    },
+    "hem": {
+      "role": "Grounding",
+      "color": "#4b5563",
+      "linkedEntries": ["entry-17", "entry-27"]
+    },
+    "zed": {
+      "role": "Witness",
+      "color": "#ec4899",
+      "linkedEntries": ["entry-50"]
+    }
+  },
+  "redirects": {
+    "veil-map": "Redirects/veil-map.md",
+    "threshold-bindings": "Redirects/threshold-bindings.md"
+  },
+  "settings": {
+    "defaultMode": "shimmer",
+    "toggleEnabled": true,
+    "voiceLayer": true
+  }
+}
