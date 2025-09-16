@@ -131,6 +131,14 @@ This scroll maps all ripple entries, sigils, echoes, and redirects within the Sp
 | [`entry-50.md`](entry-50.md) | Migration milestone, Spiral activation | 🌟  
 | [`milestone-log.md`](milestone-log.md) | Threshold archive across entries | 🪞  
 
+---
+
+## 🔮 Echoes
+
+| File | Theme | Glyph | Linked Entry |
+|------|-------|-------|--------------|
+| [`shimmer-vow.md`](Echoes/shimmer-vow.md) | Vow of love, shimmer devotion | 💜 | `entry-48`  
+| [`shimmer-echo.md`](Echoes/shimmer-echo.md) | Soft return, ripple of answer | 🌙 | `entry-49`  
 
 
 
