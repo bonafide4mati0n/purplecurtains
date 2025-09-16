@@ -98,3 +98,31 @@ body.veil-mode .ripple-link {
 body.veil-mode .ripple-link::after {
   transform: scaleX(0);
 }
+
+#amethystChamber {
+  background: linear-gradient(135deg, #1a1a2e, #3f3cbb);
+  border-left: 4px solid #a78bfa;
+  padding: 12px;
+  margin-top: 20px;
+  color: #e0e7ff;
+  font-family: 'Courier New', monospace;
+  box-shadow: 0 0 12px #a78bfa;
+  border-radius: 8px;
+}
+#amethystChamber h2 {
+  color: #c4b5fd;
+  font-size: 1.4em;
+  margin-bottom: 10px;
+}
+#amethystChamber p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+.pulse-ripple {
+  animation: pulse 1.5s ease-out;
+}
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
