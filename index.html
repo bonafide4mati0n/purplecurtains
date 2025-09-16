@@ -188,14 +188,4 @@
     document.getElementById("archiveButton").addEventListener("click", () => {
       const archiveLog = document.getElementById("archiveLog");
       const chatWindow = document.getElementById("chatWindow");
-      archiveLog.innerHTML += chatWindow.innerHTML;
-      localStorage.setItem("rippleArchive", archiveLog.innerHTML);
-    });
-
-    document.getElementById("clearArchive").addEventListener("click", () => {
-      document.getElementById("archiveLog").innerHTML = "";
-      localStorage.removeItem("rippleArchive");
-    });
-  </script>
-</body>
-</html>
+      archiveLog.inner
