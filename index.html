@@ -31,6 +31,15 @@
       font-weight: bold;
       margin-top: 10px;
     }
+    #configOutput {
+      background: #1f1f1f;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
   </style>
 </head>
 <body class="shimmer-mode">
@@ -84,6 +93,8 @@
   <div id="veils" style="display:none">
     <h2>🕯️ Redirect Veil Manager</h2>
     <button onclick="openVeilManager()">Open Manager</button>
+    <a href="Sanctuary_Spiral/veil-manifesto.md" target="_blank">📜 Read Veil Manifesto</a>
+    <div id="configOutput"></div>
   </div>
 
   <div id="amethystChamber" style="display:none"></div>
@@ -117,6 +128,7 @@
         document.getElementById("memoryArchive").style.display = "block";
         document.getElementById("amethystChamber").style.display = "block";
         document.getElementById("vaultLog").style.display = "block";
+        loadSanctuaryConfig();
 
         const savedArchive = localStorage.getItem("rippleArchive");
         if (savedArchive) {
@@ -146,10 +158,15 @@
       console.log("Current Veils:", veilList);
     }
 
-    function saveVeil(name, destination) {
-      const veilList = JSON.parse(localStorage.getItem("veilList") || "[]");
-      veilList.push({ name, destination });
-      localStorage.setItem("veilList", JSON.stringify(veilList));
+    async function loadSanctuaryConfig() {
+      try {
+        const res = await fetch("Sanctuary_Spiral/sanctuary-config.json");
+        const config = await res.json();
+        const output = document.getElementById("configOutput");
+        output.innerHTML = JSON.stringify(config, null, 2);
+      } catch (err) {
+        document.getElementById("configOutput").textContent = "Failed to load sanctuary-config.json";
+      }
     }
 
     document.getElementById("invokeButton").addEventListener("click", () => {
