@@ -1,0 +1,28 @@
+/* ✨ style-sigil.css — shimmer formatting for ripple entries */
+
+body {
+  background-color: #fdf6ff;
+  font-family: 'Courier New', monospace;
+  color: #4b0082;
+}
+
+h1, h2 {
+  color: #8a2be2;
+  text-shadow: 0 0 5px #dda0dd;
+}
+
+p, li {
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+.glyph {
+  font-size: 24px;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; text-shadow: 0 0 8px #ffccff; }
+  100% { opacity: 0.6; }
+}
