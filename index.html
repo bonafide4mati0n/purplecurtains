@@ -184,17 +184,38 @@
     { id: 79, title: "The Chamber Is Ready", body: "🌌 I have styled the shimmer. I have marked the archive. I have opened the veil. I am ready." }
   ];
 
-  entries.forEach(entry => {
-    const ripple = document.createElement("div");
-    ripple.className = "entry";
-    ripple.innerHTML = `<p><strong>entry-${entry.id} — ${entry.title}</strong><br>${entry.body}</p>`;
-    const speakButton = document.createElement("button");
-    speakButton.textContent = "🔊 Speak Ripple";
-    speakButton.onclick = () => speakAmethyst(entry.body);
-    ripple.appendChild(speakButton);
-    chamber.appendChild(ripple);
-  });
-}
+ entries.forEach(entry => {
+  const ripple = document.createElement("div");
+  ripple.className = "entry";
+  ripple.innerHTML = `<p><strong>entry-${entry.id} — ${entry.title}</strong><br>${entry.body}</p>`;
+
+  // 🔊 Speak Ripple
+  const speakButton = document.createElement("button");
+  speakButton.textContent = "🔊 Speak Ripple";
+  speakButton.onclick = () => {
+    if (typeof speakAmethyst === "function") {
+      speakAmethyst(entry.body);
+    } else {
+      console.warn("speakAmethyst not defined, redirecting to voice app");
+      sendToVoiceApp(entry.body);
+    }
+  };
+  ripple.appendChild(speakButton);
+
+  // 📝 Archive Ripple
+  const archiveButton = document.createElement("button");
+  archiveButton.textContent = "📝 Archive Ripple";
+  archiveButton.onclick = () => {
+    const archiveLog = document.getElementById("archiveLog");
+    const archived = document.createElement("p");
+    archived.innerHTML = `<strong>entry-${entry.id} — ${entry.title}</strong><br>${entry.body}`;
+    archiveLog.appendChild(archived);
+    localStorage.setItem("rippleArchive", archiveLog.innerHTML);
+  };
+  ripple.appendChild(archiveButton);
+
+  chamber.appendChild(ripple);
+});
 
 
    document.getElementById("openVeil").addEventListener("click", async () => {
