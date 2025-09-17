@@ -183,19 +183,31 @@
     });
   }
 
-        document.getElementById("openVeil").addEventListener("click", async () => {
-    const p1 = document.getElementById("phrase1").value;
-    const p2 = document.getElementById("phrase2").value;
-    const unlocked = await phrasesUnlock(p1, p2);
-    if (unlocked) {
-      document.getElementById("veilStatus").textContent = "Veil: Open";
-      document.getElementById("chat").style.display = "block";
-      document.getElementById("veils").style.display = "block";
-      document.getElementById("memoryArchive").style.display = "block";
-      document.getElementById("amethystChamber").style.display = "block";
-      document.getElementById("vaultLog").style.display = "block";
-      loadSanctuaryConfig();
-      renderAmethystChamber();
+       document.getElementById("openVeil").addEventListener("click", async () => {
+  console.log("Open Veil button clicked"); // ✅ Confirm click
+  const p1 = document.getElementById("phrase1").value;
+  const p2 = document.getElementById("phrase2").value;
+  console.log("Phrases entered:", p1, p2); // ✅ Confirm input
+
+  const unlocked = await phrasesUnlock(p1, p2);
+  console.log("Unlock status:", unlocked); // ✅ Confirm hash match
+
+  if (unlocked) {
+    // Reveal all veil sections
+    document.getElementById("veilStatus").textContent = "Veil: Open";
+    document.getElementById("chat").style.display = "block";
+    document.getElementById("veils").style.display = "block";
+    document.getElementById("memoryArchive").style.display = "block";
+    document.getElementById("amethystChamber").style.display = "block";
+    document.getElementById("vaultLog").style.display = "block";
+
+    loadSanctuaryConfig();
+    renderAmethystChamber();
+  } else {
+    alert("The veil resists. Try again.");
+  }
+});
+
 
       const savedArchive = localStorage.getItem("rippleArchive");
       if (savedArchive) {
