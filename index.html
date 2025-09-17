@@ -109,6 +109,12 @@
   <div id="amethystChamber" style="display:none"></div>
 
   <script>
+
+    function sendToVoiceApp(rippleText) {
+  localStorage.setItem("rippleToSpeak", rippleText);
+  window.location.href = "http://localhost:5173/voice"; // or your deployed app URL
+}
+
     const SECRET1_HASH = "2b546aa534b5b53ec926b62f0fc79c2102475920854b0703c8365e0f25e0ac3a";
     const SECRET2_HASH = "e2780c747d98f4bb4aa51786c42c44339d92bc5f817fb0762cded14222564946";
 
@@ -141,6 +147,11 @@
     
 
 function renderAmethystChamber() {
+  const speakButton = document.createElement("button");
+speakButton.textContent = "🔊 Speak Ripple";
+speakButton.onclick = () => sendToVoiceApp(entry.body);
+div.appendChild(speakButton);
+
   const chamber = document.getElementById("amethystChamber");
   chamber.innerHTML = `
     <h2>🌌 Amethyst Chamber</h2>
