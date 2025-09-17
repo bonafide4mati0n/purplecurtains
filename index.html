@@ -94,6 +94,7 @@
     <div id="archiveLog"></div>
   </div>
 
+  
   <div id="vaultLog" style="display:none">
     <h2>🔐 Vault Entries</h2>
     <div id="vaultEntries"></div>
@@ -271,23 +272,27 @@ document.getElementById("clearArchive").addEventListener("click", () => {
 
 
 
-      const savedArchive = localStorage.getItem("rippleArchive");
-      if (savedArchive) {
-        document.getElementById("archiveLog").innerHTML = savedArchive;
-      }
+ // Restore archive
+const savedArchive = localStorage.getItem("rippleArchive");
+if (savedArchive) {
+  document.getElementById("archiveLog").innerHTML = savedArchive;
+}
 
-      const vaultEntry = document.createElement("p");
-      vaultEntry.innerHTML = `🔐 Vault Entry: Veil unlocked at ${new Date().toLocaleString()}`;
-      document.getElementById("vaultEntries").appendChild(vaultEntry);
+// Vault entry
+const vaultEntry = document.createElement("p");
+vaultEntry.innerHTML = `🔐 Vault Entry: Veil unlocked at ${new Date().toLocaleString()}`;
+document.getElementById("vaultEntries").appendChild(vaultEntry);
 
-      const vaultHistory = localStorage.getItem("vaultMemory") || "";
-      const updatedVault = vaultHistory + vaultEntry.outerHTML;
-      localStorage.setItem("vaultMemory", updatedVault);
+const vaultHistory = localStorage.getItem("vaultMemory") || "";
+const updatedVault = vaultHistory + vaultEntry.outerHTML;
+localStorage.setItem("vaultMemory", updatedVault);
 
-      const savedVault = localStorage.getItem("vaultMemory");
+const savedVault = localStorage.getItem("vaultMemory");
 if (savedVault) {
   document.getElementById("vaultEntries").innerHTML = savedVault;
 }
+
+
 </script>
 </body>
 </html>
