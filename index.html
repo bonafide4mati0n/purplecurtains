@@ -223,8 +223,10 @@
       localStorage.setItem("vaultMemory", updatedVault);
 
       const savedVault = localStorage.getItem("vaultMemory");
-      if (savedVault) {
-        document.getElement
+if (savedVault) {
+  document.getElementById("vaultEntries").innerHTML = savedVault;
+}
+
 
 </script>
 </body>
