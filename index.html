@@ -92,14 +92,13 @@
   <div id="memoryArchive" style="display:none">
     <h2>📜 Ripple Archive</h2>
     <div id="archiveLog"></div>
-  </div>
 
-  <div id="amethystChamber" style="display:none"></div>
+  <div id="amethystChamber" style="display:none;"></div>
 
-
-  <div id="vaultLog" style="display:none">
+  <div id="vaultLog" style="display:none"></div>
 
     <script>
+      
   function sendToVoiceApp(rippleText) {
     localStorage.setItem("rippleToSpeak", rippleText);
     window.location.href = "http://localhost:5173/voice"; // update for production
