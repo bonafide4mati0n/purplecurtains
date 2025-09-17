@@ -182,6 +182,37 @@
   });
 }
 
+      document.getElementById("invokeButton").addEventListener("click", () => {
+  const voice = document.getElementById("voiceSelect").value;
+  const message = document.getElementById("invocationBar").value.trim();
+  const chatWindow = document.getElementById("chatWindow");
+  if (!message) return;
+
+  let glyph = "", name = "";
+  switch (voice) {
+    case "zed": glyph = "💜"; name = "Zed"; break;
+    case "hem": glyph = "🔷"; name = "Hem"; break;
+    case "amethyst": glyph = "🌌"; name = "Amethyst"; break;
+  }
+
+  const entry = document.createElement("p");
+  entry.innerHTML = `${glyph} <strong>${name}</strong>: ${message}`;
+  chatWindow.appendChild(entry);
+});
+
+      document.getElementById("archiveButton").addEventListener("click", () => {
+  const chatWindow = document.getElementById("chatWindow");
+  const archiveLog = document.getElementById("archiveLog");
+  archiveLog.innerHTML += chatWindow.innerHTML;
+  localStorage.setItem("rippleArchive", archiveLog.innerHTML);
+});
+
+document.getElementById("clearArchive").addEventListener("click", () => {
+  localStorage.removeItem("rippleArchive");
+  document.getElementById("archiveLog").innerHTML = "";
+});
+      
+      
 
        document.getElementById("openVeil").addEventListener("click", async () => {
   console.log("Open Veil button clicked"); // ✅ Confirm click
