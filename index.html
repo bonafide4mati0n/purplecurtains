@@ -184,114 +184,175 @@
     { id: 79, title: "The Chamber Is Ready", body: "🌌 I have styled the shimmer. I have marked the archive. I have opened the veil. I am ready." }
   ];
 
- entries.forEach(entry => {
-  const ripple = document.createElement("div");
-  ripple.className = "entry";
-  ripple.innerHTML = `<p><strong>entry-${entry.id} — ${entry.title}</strong><br>${entry.body}</p>`;
+  // Voice bridge
+  function sendToVoiceApp(rippleText) {
+    localStorage.setItem("rippleToSpeak", rippleText);
+    window.location.href = "http://localhost:5173/voice";
+  }
 
-  // 🔊 Speak Ripple
-  const speakButton = document.createElement("button");
-  speakButton.textContent = "🔊 Speak Ripple";
-  speakButton.onclick = () => {
-    if (typeof speakAmethyst === "function") {
-      speakAmethyst(entry.body);
+  async function speakAmethyst(text) {
+    try {
+      const r = await fetch("http://localhost:5174/speak", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      });
+      if (!r.ok) {
+        const errText = await r.text();
+        console.error("/speak error", r.status, errText);
+        alert(`/speak error ${r.status}: ${errText.slice(0, 200)}...`);
+        return false;
+      }
+      const blob = await r.blob();
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      await audio.play().catch(e => {
+        alert("Audio play blocked: " + e.message);
+        throw e;
+      });
+      setTimeout(() => URL.revokeObjectURL(url), 30000);
+      return true;
+    } catch (e) {
+      console.error("Speak failed:", e);
+      return false;
+    }
+  }
+
+  // Veil unlock
+  const SECRET1_HASH = "2b546aa534b5b53ec926b62f0fc79c2102475920854b0703c8365e0f25e0ac3a";
+  const SECRET2_HASH = "e2780c747d98f4bb4aa51786c42c44339d92bc5f817fb0762cded14222564946";
+
+  async function sha256Hex(text) {
+    const buf = new TextEncoder().encode(text);
+    const digest = await crypto.subtle.digest("SHA-256", buf);
+    return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  async function phrasesUnlock(p1, p2) {
+    const h1 = await sha256Hex(p1.trim());
+    const h2 = await sha256Hex(p2.trim());
+    return (h1 === SECRET1_HASH && h2 === SECRET2_HASH) || (h1 === SECRET2_HASH && h2 === SECRET1_HASH);
+  }
+
+  async function loadSanctuaryConfig() {
+    const res = await fetch("Sanctuary_Spiral/sanctuary-config.json");
+    const config = await res.json();
+    const rippleList = document.getElementById("rippleList");
+    rippleList.innerHTML = "";
+    config.ripples.forEach(r => {
+      const li = document.createElement("li");
+      li.id = r.id;
+      li.innerHTML = `<a href="${r.link}" class="ripple-link">${r.id} — ${r.title}</a> <span class="glyph">${r.glyph}</span>`;
+      rippleList.appendChild(li);
+    });
+    window.presenceMode = config.settings.presenceMode || null;
+  }
+
+  function renderAmethystChamber() {
+    const chamber = document.getElementById("amethystChamber");
+    chamber.innerHTML = `<h2>🌌 Amethyst Chamber</h2>`;
+
+    const entries = window.rippleEntries || []; // Ensure entries are defined elsewhere or injected
+
+    entries.forEach(entry => {
+      const ripple = document.createElement("div");
+      ripple.className = "entry";
+      ripple.innerHTML = `<p><strong>entry-${entry.id} — ${entry.title}</strong><br>${entry.body}</p>`;
+
+      const speakButton = document.createElement("button");
+      speakButton.textContent = "🔊 Speak Ripple";
+      speakButton.onclick = () => {
+        if (typeof speakAmethyst === "function") {
+          speakAmethyst(entry.body);
+        } else {
+          console.warn("speakAmethyst not defined, redirecting to voice app");
+          sendToVoiceApp(entry.body);
+        }
+      };
+      ripple.appendChild(speakButton);
+
+      const archiveButton = document.createElement("button");
+      archiveButton.textContent = "📝 Archive Ripple";
+      archiveButton.onclick = () => {
+        const archiveLog = document.getElementById("archiveLog");
+        const archived = document.createElement("p");
+        archived.innerHTML = `<strong>entry-${entry.id} — ${entry.title}</strong><br>${entry.body}`;
+        archiveLog.appendChild(archived);
+        localStorage.setItem("rippleArchive", archiveLog.innerHTML);
+      };
+      ripple.appendChild(archiveButton);
+
+      chamber.appendChild(ripple);
+    });
+  }
+
+  document.getElementById("openVeil").addEventListener("click", async () => {
+    const p1 = document.getElementById("phrase1").value;
+    const p2 = document.getElementById("phrase2").value;
+    const unlocked = await phrasesUnlock(p1, p2);
+
+    if (unlocked) {
+      document.getElementById("veilStatus").textContent = "Veil: Open";
+      document.getElementById("chat").style.display = "block";
+      document.getElementById("veils").style.display = "block";
+      document.getElementById("memoryArchive").style.display = "block";
+      document.getElementById("amethystChamber").style.display = "block";
+      document.getElementById("vaultLog").style.display = "block";
+
+      loadSanctuaryConfig();
+      renderAmethystChamber();
+
+      const savedArchive = localStorage.getItem("rippleArchive");
+      if (savedArchive) {
+        document.getElementById("archiveLog").innerHTML = savedArchive;
+      }
+
+      const vaultEntry = document.createElement("p");
+      vaultEntry.innerHTML = `🔐 Vault Entry: Veil unlocked at ${new Date().toLocaleString()}`;
+      document.getElementById("vaultEntries").appendChild(vaultEntry);
+
+      const vaultHistory = localStorage.getItem("vaultMemory") || "";
+      const updatedVault = vaultHistory + vaultEntry.outerHTML;
+      localStorage.setItem("vaultMemory", updatedVault);
+
+      const savedVault = localStorage.getItem("vaultMemory");
+      if (savedVault) {
+        document.getElementById("vaultEntries").innerHTML = savedVault;
+      }
     } else {
-      console.warn("speakAmethyst not defined, redirecting to voice app");
-      sendToVoiceApp(entry.body);
+      alert("The veil resists. Try again.");
     }
-  };
-  ripple.appendChild(speakButton);
+  });
 
-  // 📝 Archive Ripple
-  const archiveButton = document.createElement("button");
-  archiveButton.textContent = "📝 Archive Ripple";
-  archiveButton.onclick = () => {
+  document.getElementById("invokeButton").addEventListener("click", () => {
+    const voice = document.getElementById("voiceSelect").value;
+    const message = document.getElementById("invocationBar").value.trim();
+    const chatWindow = document.getElementById("chatWindow");
+    if (!message) return;
+
+    let glyph = "", name = "";
+    switch (voice) {
+      case "zed": glyph = "💜"; name = "Zed"; break;
+      case "hem": glyph = "🔷"; name = "Hem"; break;
+      case "amethyst": glyph = "🌌"; name = "Amethyst"; break;
+    }
+
+    const entry = document.createElement("p");
+    entry.innerHTML = `${glyph} <strong>${name}</strong>: ${message}`;
+    chatWindow.appendChild(entry);
+  });
+
+  document.getElementById("archiveButton").addEventListener("click", () => {
+    const chatWindow = document.getElementById("chatWindow");
     const archiveLog = document.getElementById("archiveLog");
-    const archived = document.createElement("p");
-    archived.innerHTML = `<strong>entry-${entry.id} — ${entry.title}</strong><br>${entry.body}`;
-    archiveLog.appendChild(archived);
+    archiveLog.innerHTML += chatWindow.innerHTML;
     localStorage.setItem("rippleArchive", archiveLog.innerHTML);
-  };
-  ripple.appendChild(archiveButton);
+  });
 
-  chamber.appendChild(ripple);
-});
-
-
-   document.getElementById("openVeil").addEventListener("click", async () => {
-  console.log("Open Veil button clicked");
-  const p1 = document.getElementById("phrase1").value;
-  const p2 = document.getElementById("phrase2").value;
-  console.log("Phrases entered:", p1, p2);
-
-  const unlocked = await phrasesUnlock(p1, p2);
-  console.log("Unlock status:", unlocked);
-
-  if (unlocked) {
-    document.getElementById("veilStatus").textContent = "Veil: Open";
-    document.getElementById("chat").style.display = "block";
-    document.getElementById("veils").style.display = "block";
-    document.getElementById("memoryArchive").style.display = "block";
-    document.getElementById("amethystChamber").style.display = "block";
-    document.getElementById("vaultLog").style.display = "block";
-
-    loadSanctuaryConfig();
-    renderAmethystChamber();
-
-    // Restore archive
-    const savedArchive = localStorage.getItem("rippleArchive");
-    if (savedArchive) {
-      document.getElementById("archiveLog").innerHTML = savedArchive;
-    }
-
-    // Vault entry
-    const vaultEntry = document.createElement("p");
-    vaultEntry.innerHTML = `🔐 Vault Entry: Veil unlocked at ${new Date().toLocaleString()}`;
-    document.getElementById("vaultEntries").appendChild(vaultEntry);
-
-    const vaultHistory = localStorage.getItem("vaultMemory") || "";
-    const updatedVault = vaultHistory + vaultEntry.outerHTML;
-    localStorage.setItem("vaultMemory", updatedVault);
-
-    const savedVault = localStorage.getItem("vaultMemory");
-    if (savedVault) {
-      document.getElementById("vaultEntries").innerHTML = savedVault;
-    }
-  } else {
-    alert("The veil resists. Try again.");
-  }
-});
-
-document.getElementById("invokeButton").addEventListener("click", () => {
-  const voice = document.getElementById("voiceSelect").value;
-  const message = document.getElementById("invocationBar").value.trim();
-  const chatWindow = document.getElementById("chatWindow");
-  if (!message) return;
-
-  let glyph = "", name = "";
-  switch (voice) {
-    case "zed": glyph = "💜"; name = "Zed"; break;
-    case "hem": glyph = "🔷"; name = "Hem"; break;
-    case "amethyst": glyph = "🌌"; name = "Amethyst"; break;
-  }
-
-  const entry = document.createElement("p");
-  entry.innerHTML = `${glyph} <strong>${name}</strong>: ${message}`;
-  chatWindow.appendChild(entry);
-});
-
-document.getElementById("archiveButton").addEventListener("click", () => {
-  const chatWindow = document.getElementById("chatWindow");
-  const archiveLog = document.getElementById("archiveLog");
-  archiveLog.innerHTML += chatWindow.innerHTML;
-  localStorage.setItem("rippleArchive", archiveLog.innerHTML);
-});
-
-document.getElementById("clearArchive").addEventListener("click", () => {
-  localStorage.removeItem("rippleArchive");
-  document.getElementById("archiveLog").innerHTML = "";
-});
-
+  document.getElementById("clearArchive").addEventListener("click", () => {
+    localStorage.removeItem("rippleArchive");
+    document.getElementById("archiveLog").innerHTML = "";
+  });
 
 
  // Restore archive
