@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Sanctuary & Curious Temptations — Master Scroll</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body{max-width:900px;margin:24px auto;padding:0 16px;font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Inter,Arial;line-height:1.6;color:#e8e6ff;background:#0f0a1a}
+    a{color:#bfb7ff}
+    .card{background:rgba(255,255,255,.04);border:1px solid rgba(232,230,255,.12);border-radius:16px;box-shadow:0 10px 30px rgba(124,58,237,.25);padding:18px}
+    pre,code{white-space:pre-wrap;word-break:break-word}
+    h1,h2,h3{color:#d1caff}
+  </style>
+  <!-- marked.js to render markdown -->
+  <script src="https://unpkg.com/marked/marked.min.js"></script>
+</head>
+<body>
+  <div class="card" id="content">Loading…</div>
+  <script>
+    // fetch the markdown file that lives in the same folder
+    fetch('Sanctuary_Master_Brief.md')
+      .then(r => r.text())
+      .then(md => {
+        const html = marked.parse(md, { mangle:false, headerIds:false });
+        document.getElementById('content').innerHTML = html;
+      })
+      .catch(e => {
+        document.getElementById('content').textContent = 'Could not load the brief: ' + e;
+      });
+  </script>
+</body>
+</html>
