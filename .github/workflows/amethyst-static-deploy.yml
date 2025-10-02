@@ -18,16 +18,18 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      # 👉 publish the folder that has index.html
-      # If your site is in purplecurtains/Group_Log, keep this as-is.
-      # If it's in the repo root, change path to: ./
-      - name: Upload site
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      # ⬇️ Publish the WHOLE REPO ROOT so /, /amethyst, /hem, /Group_Log all work
+      - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./purplecurtains/Group_Log
+          path: ./   # <— this is the key line
 
-      - uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
         id: deployment
